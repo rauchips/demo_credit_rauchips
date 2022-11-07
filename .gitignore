@@ -1,3 +1,6 @@
+# Complied JavaScript REST API
+build/
+
 # Logs
 logs
 *.log
