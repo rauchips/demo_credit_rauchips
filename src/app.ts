@@ -2,11 +2,12 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
-import dotenv from 'dotenv';
-
-import usersRoute from './routes/users'
+import * as dotenv from 'dotenv';
 
 dotenv.config();
+
+import { PORT } from './utils';
+import usersRoute from './routes/users';
 
 const app = express();
 
@@ -18,4 +19,4 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(usersRoute);
 
-app.listen(process.env.PORT, () => console.log(`Server is running on port:${process.env.PORT}`));
+app.listen(PORT, () => console.log(`Server is running on port:${PORT}`));
