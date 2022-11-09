@@ -15,4 +15,18 @@ export default class WalletService {
     const wallets = await db('wallets').where(field, query)
     return wallets;
   }
+
+  public async depositWallets (id: string, query: number) {
+    const update = db('wallets')
+                      .where({ userId: id })
+                      .increment('balance', query);
+    return update;
+  }
+
+  public async withdrawWallets (id: string, query: number) {
+    const update = db('wallets')
+                      .where({ userId: id })
+                      .decrement('balance', query);
+    return update;
+  }
 }
