@@ -11,8 +11,8 @@ export default class UserService {
     return users;
   }
 
-  public async filterUser(query: string) {
-    const user = await db('users').where('email', query)
+  public async filterUser (field: string, query: string) {
+    const user = await db('users').where(field, query);
     return user;
   }
 }

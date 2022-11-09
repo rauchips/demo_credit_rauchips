@@ -6,6 +6,7 @@
     "esModuleInterop": true,
     "pretty": true,
     "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
     "rootDir": "./src",
     "outDir": "./build",
     "strict": true

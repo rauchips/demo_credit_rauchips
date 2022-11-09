@@ -10,6 +10,7 @@ dotenv.config();
 
 import { PORT } from './utils';
 import usersRoute from './routes/users';
+import walletsRoute from './routes/wallets';
 
 const app = express();
 
@@ -20,10 +21,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(usersRoute);
+app.use(walletsRoute);
 
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
   if (err.name === "UnauthorizedError") {
-    return res.status(401).json({ message: 'You are not authorize, kindly signup/login'});
+    return res.status(401).json({ message: 'You are not authorized, kindly signup OR login'});
   } else {
     next(err);
   }
