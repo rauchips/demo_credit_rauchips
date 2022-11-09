@@ -2,6 +2,8 @@ import type { Knex } from "knex";
 import dotenv from 'dotenv';
 dotenv.config();
 
+// import { HOST, USER, PASSWORD, DB } from '../utils'
+
 const configs: { [key: string]: Knex.Config } = {
   development: {
     client: 'mysql2',

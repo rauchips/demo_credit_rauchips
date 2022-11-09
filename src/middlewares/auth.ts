@@ -7,10 +7,10 @@ dotenv.config();
 import { JWT } from '../utils';
 
 export function generateToken(id: string, email: string): string {
-  return jwt.sign({ data: { id, email }}, 'hello world', { expiresIn: '1h' }); 
+  return jwt.sign({ data: { id, email }}, `${JWT}`, { expiresIn: '1h' }); 
 }
 
 export function veritfyToken() {
-  const token = expressjwt({ secret: 'hello world', algorithms: ["HS256"] });
+  const token = expressjwt({ secret: `${JWT}`, algorithms: ["HS256"] });
   return token;
 }
