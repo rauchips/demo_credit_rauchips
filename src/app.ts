@@ -3,17 +3,17 @@ import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
 import * as dotenv from 'dotenv';
-import { Request, Response, NextFunction } from "express";
+import { Application } from "express";
 
 
 dotenv.config();
 
-import { PORT } from './utils';
+import { PORT, NODE_ENV } from './utils';
 import usersRoute from './routes/users';
 import walletsRoute from './routes/wallets';
 import ErrorHandler from './errors/errorHandler';
 
-const app = express();
+const app: Application = express();
 
 app.use(helmet());
 app.use(cors());
@@ -25,4 +25,8 @@ app.use(usersRoute);
 app.use(walletsRoute);
 app.use(ErrorHandler);
 
-app.listen(PORT, () => console.log(`Server is running on port:${PORT}`));
+if (NODE_ENV !== 'test') {
+  app.listen(PORT, () => console.log(`Server is running on port:${PORT}`));
+}
+
+export default app;
