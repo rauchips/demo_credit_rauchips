@@ -10,7 +10,7 @@ export function generateToken(id: string, email: string): string {
   return jwt.sign({ data: { id, email }}, `${JWT}`, { expiresIn: '1y' }); 
 }
 
-export function veritfyToken() {
+export function verifyToken() {
   const token = expressjwt({ secret: `${JWT}`, algorithms: ["HS256"] });
   return token;
 }

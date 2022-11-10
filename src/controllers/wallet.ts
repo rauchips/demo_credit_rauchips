@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import WalletService from "../modules/wallets/service";
+import { ApiError } from "../errors/errors";
 
 const walletService: WalletService = new WalletService();
 
@@ -21,20 +22,19 @@ export async function makeDeposit(req: Request, res:Response, next: NextFunction
         })
       }
       
-      return res.status(400).json({
+      return res.status(400).json(ApiError.BadRequest({
         deposit: false,
         message: 'Transaction failed, enter a valid amount' 
-      });
+      }));
        
     }
-    return res.status(400).json({
+    return res.status(400).json(ApiError.BadRequest({
       deposit: false,
-      message: 'Transaction failed, unable to make deposit' });
+      message: 'Transaction failed, unable to make deposit' }));
     
     
   } catch (error) {
-    console.error(error);
-    next(error);
+    next(ApiError.InternalError(error));
   }
 }
 
@@ -48,10 +48,10 @@ export async function makeWithdrawal(req: Request, res:Response, next: NextFunct
 
     if (withdrawer[0] && withdrawer[0].balance > 0) {
       if (balance <= 0) {
-        return res.status(400).json({
+        return res.status(400).json(ApiError.BadRequest({
           deposit: false,
           message: 'Transaction failed, enter a valid amount' 
-        });
+        }));
       }
         await walletService.withdrawWallets(id, balance);
         return res.status(200).json({
@@ -59,13 +59,12 @@ export async function makeWithdrawal(req: Request, res:Response, next: NextFunct
           message: 'Successfully withdrawed from wallet'
         })
     }
-    return res.status(400).json({
+    return res.status(400).json(ApiError.BadRequest({
       deposit: false,
-      message: 'Transaction failed, unable to make withdrawal' });
+      message: 'Transaction failed, unable to make withdrawal kindly top up your wallet' }));
     
   } catch (error) {
-    console.error(error);
-    next(error);
+    next(ApiError.InternalError(error));
   }
 }
 
@@ -88,23 +87,22 @@ export async function makeTransfer(req: Request, res:Response, next: NextFunctio
           withdraw: true,
           deposit: true,
           message: 'Successfully transfered funds'
-        })
+        });
       }
-      return res.status(400).json({
+      return res.status(400).json(ApiError.BadRequest({
         withdraw: false,
         message: 'Transaction failed, you have insufficient funds kindly top up your wallet'
-      })
+      }));
       
     }
 
-    return res.status(400).json({
+    return res.status(400).json(ApiError.BadRequest({
       withdraw: false,
       deposit: false,
-      message: 'Transaction failed, unable to make transfer' });
+      message: 'Transaction failed, unable to make transfer' }));
     
   } catch (error) {
-    console.error(error);
-    next(error);
+    next(ApiError.InternalError(error));
   }
 }
 
@@ -116,11 +114,10 @@ export async function checkBalance(req: Request, res:Response, next: NextFunctio
 
     wallet.length > 0 ?
     res.status(200).json(wallet) :
-    res.status(400).json({ message: 'This user does not exist' })
+    res.status(400).json(ApiError.BadRequest('This user does not exist'))
 
   } catch (error) {
-    console.error(error);
-    next(error);
+    next(ApiError.InternalError(error));
   }
 }
 
@@ -134,7 +131,6 @@ export async function getWallets(req: Request, res:Response, next: NextFunction)
     })
 
   } catch (error) {
-    console.error(error);
-    next(error);
+    next(ApiError.InternalError(error));
   }
 }

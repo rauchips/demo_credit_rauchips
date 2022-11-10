@@ -11,6 +11,7 @@ dotenv.config();
 import { PORT } from './utils';
 import usersRoute from './routes/users';
 import walletsRoute from './routes/wallets';
+import ErrorHandler from './errors/errorHandler';
 
 const app = express();
 
@@ -22,13 +23,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(usersRoute);
 app.use(walletsRoute);
-
-app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
-  if (err.name === "UnauthorizedError") {
-    return res.status(401).json({ message: 'You are not authorized, kindly signup OR login'});
-  } else {
-    next(err);
-  }
-});
+app.use(ErrorHandler);
 
 app.listen(PORT, () => console.log(`Server is running on port:${PORT}`));
