@@ -2,16 +2,16 @@ import express from 'express';
 
 const router = express.Router();
 
-import { veritfyToken } from '../middlewares/auth';
+import { verifyToken } from '../middlewares/auth';
 import { checkBalance, makeDeposit, makeWithdrawal, makeTransfer, getWallets } from '../controllers/wallet';
 
-router.patch('/api/wallet/deposit/:id', veritfyToken(), makeDeposit);
+router.patch('/api/wallet/deposit/:id', verifyToken(), makeDeposit);
 
-router.patch('/api/wallet/withdraw/:id', veritfyToken(), makeWithdrawal);
+router.patch('/api/wallet/withdraw/:id', verifyToken(), makeWithdrawal);
 
-router.patch('/api/wallet/transfer/:id', veritfyToken(), makeTransfer);
+router.patch('/api/wallet/transfer/:id', verifyToken(), makeTransfer);
 
-router.get('/api/wallet/balance/:id', veritfyToken(), checkBalance);
+router.get('/api/wallet/balance/:id', verifyToken(), checkBalance);
 
 router.get('/api/wallet/', getWallets)
 

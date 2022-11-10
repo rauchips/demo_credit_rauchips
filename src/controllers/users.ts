@@ -6,6 +6,7 @@ import UserService from "../modules/users/service";
 import WalletService from '../modules/wallets/service';
 import { generateToken } from '../middlewares/auth';
 import { IUser } from '../modules/users/model';
+import { ApiError } from '../errors/errors';
 
 const userService: UserService = new UserService();
 const walletService: WalletService = new WalletService();
@@ -19,7 +20,10 @@ export async function createUser(req: Request, res: Response, next: NextFunction
     const id: string = uuidv4();
 
     filter.length > 0 ?
-      res.status(401).json({ message: 'User already exists.' }) :
+      
+      res.status(400).json(ApiError.BadRequest(
+       'User already exists, kindly register with a different email address' 
+      )) :
 
       await userService.createUser({
         id,
@@ -43,8 +47,7 @@ export async function createUser(req: Request, res: Response, next: NextFunction
         });
 
   } catch (error) {
-    console.error(error);
-    next(error);
+    next(ApiError.InternalError(error));
   }
 }
 
@@ -53,16 +56,15 @@ export async function loginUser(req: Request, res: Response, next: NextFunction)
     const { email, password } = req.body;
 
     const filter = await userService.filterUser('email', email);
-    if (filter.length === 0) return res.status(401).json({ message: 'Kindly register first' })
+    if (filter.length === 0) return res.status(401).json(ApiError.UnAuthorized('Kindly register first'))
 
     const matchPass = await bcrypt.compare(password, filter[0].password);
-    if (!matchPass) return res.status(401).json({ message: 'Kindly enter the right password' })
+    if (!matchPass) return res.status(401).json(ApiError.UnAuthorized('Kindly enter the right password'))
 
     return res.status(200).json(filter);
 
   } catch (error) {
-    console.error(error);
-    next(error);
+    next(ApiError.InternalError(error));
   }
 }
 
@@ -75,7 +77,6 @@ export async function getUsers(req: Request, res: Response, next: NextFunction) 
       data: users
     })
   } catch (error) {
-    console.error(error);
-    next(error);
+    next(ApiError.InternalError(error));
   }
 }
