@@ -1,4 +1,4 @@
-import { IUser } from "./model";
+import { IUser } from './model';
 import db from '../../database';
 
 export default class UserService {

@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
 import * as dotenv from 'dotenv';
-import { Application } from "express";
+import { Application } from 'express';
 
 
 dotenv.config();
