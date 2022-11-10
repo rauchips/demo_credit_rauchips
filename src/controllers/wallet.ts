@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 
-import WalletService from "../modules/wallets/service";
-import { ApiError } from "../errors/errors";
+import WalletService from '../modules/wallets/service';
+import { ApiError } from '../errors/errors';
 
 const walletService: WalletService = new WalletService();
 
+// DEPOSIT INTO WALLET
 export async function makeDeposit(req: Request, res:Response, next: NextFunction) {
   try {
     const id = req.params.id;
@@ -38,6 +39,7 @@ export async function makeDeposit(req: Request, res:Response, next: NextFunction
   }
 }
 
+// WITHDRAW FROM WALLET
 export async function makeWithdrawal(req: Request, res:Response, next: NextFunction) {
   try {
     const id = req.params.id;
@@ -68,6 +70,7 @@ export async function makeWithdrawal(req: Request, res:Response, next: NextFunct
   }
 }
 
+// TRANSFER FUNDS BETWEEN TWO USERS
 export async function makeTransfer(req: Request, res:Response, next: NextFunction) {
   try {
     const id = req.params.id;
@@ -106,6 +109,7 @@ export async function makeTransfer(req: Request, res:Response, next: NextFunctio
   }
 }
 
+// CHECK BALANCE OF WALLET
 export async function checkBalance(req: Request, res:Response, next: NextFunction) {
   try {
     const id = req.params.id;
@@ -121,6 +125,7 @@ export async function checkBalance(req: Request, res:Response, next: NextFunctio
   }
 }
 
+// GET ALL WALLETS IN THE DATABASE
 export async function getWallets(req: Request, res:Response, next: NextFunction) {
   try {
     const wallets = await walletService.getWallets()

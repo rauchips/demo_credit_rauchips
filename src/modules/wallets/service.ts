@@ -1,4 +1,4 @@
-import { IWallet } from "./model";
+import { IWallet } from './model';
 import db from '../../database';
 
 export default class WalletService {

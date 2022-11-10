@@ -2,15 +2,15 @@ import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from "express";
 
-import UserService from "../modules/users/service";
+import UserService from '../modules/users/service';
 import WalletService from '../modules/wallets/service';
 import { generateToken } from '../middlewares/auth';
-import { IUser } from '../modules/users/model';
 import { ApiError } from '../errors/errors';
 
 const userService: UserService = new UserService();
 const walletService: WalletService = new WalletService();
 
+// REGISTER NEW USER
 export async function createUser(req: Request, res: Response, next: NextFunction) {
   try {
     const { name, email, password } = req.body;
@@ -51,6 +51,7 @@ export async function createUser(req: Request, res: Response, next: NextFunction
   }
 }
 
+// LOGIN EXISTING USER
 export async function loginUser(req: Request, res: Response, next: NextFunction) {
   try {
     const { email, password } = req.body;
@@ -68,6 +69,7 @@ export async function loginUser(req: Request, res: Response, next: NextFunction)
   }
 }
 
+// GET ALL USERS IN THE DATABASE
 export async function getUsers(req: Request, res: Response, next: NextFunction) {
   try {
     const users = await userService.getUsers()
